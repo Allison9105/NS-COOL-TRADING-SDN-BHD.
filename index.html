@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NS Cool Trading Sdn Bhd – Your Parts, We Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ice: #D6F0FA;
+    --sky: #0A9FD8;
+    --deep: #054F72;
+    --night: #071A24;
+    --frost: #F0F8FC;
+    --mist: #B8DCF0;
+    --white: #FFFFFF;
+    --gray: #6B7C88;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--night);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(7,26,36,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(10,159,216,0.2);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-logo span { color: var(--sky); }
+  .nav-logo img { width: 36px; height: 36px; object-fit: contain; border-radius: 4px; }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--mist); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sky); }
+  .lang-switcher {
+    display: flex; gap: 0.4rem;
+  }
+  .lang-btn {
+    background: transparent; border: 1px solid rgba(10,159,216,0.4);
+    color: var(--mist); font-size: 0.75rem; padding: 0.25rem 0.6rem;
+    border-radius: 4px; cursor: pointer; transition: all 0.2s;
+  }
+  .lang-btn:hover, .lang-btn.active { background: var(--sky); border-color: var(--sky); color: white; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 60% 50%, rgba(10,159,216,0.18) 0%, transparent 70%),
+                linear-gradient(170deg, #071A24 0%, #0a2233 60%, #071A24 100%);
+    padding: 6rem 2rem 4rem;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 4rem;
+    max-width: 1100px; width: 100%;
+  }
+  .hero-text {}
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sky);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 2px; background: var(--sky);
+  }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900; line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.2rem;
+  }
+  .hero-title .accent { color: var(--sky); }
+  .hero-tagline {
+    font-size: 1.1rem; color: var(--mist);
+    margin-bottom: 2rem; line-height: 1.6;
+    max-width: 420px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--sky); color: white;
+    padding: 0.85rem 2rem; border-radius: 6px;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .hero-cta:hover { background: #0b8fc0; transform: translateY(-2px); }
+
+  /* Frost crystal visual */
+  .hero-visual {
+    display: flex; align-items: center; justify-content: center;
+  }
+  .frost-ring {
+    position: relative; width: 320px; height: 320px;
+  }
+  .ring {
+    position: absolute; border-radius: 50%;
+    border: 1.5px solid rgba(10,159,216,0.3);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  .ring:nth-child(1) { width: 100%; height: 100%; top: 0; left: 0; animation-delay: 0s; }
+  .ring:nth-child(2) { width: 75%; height: 75%; top: 12.5%; left: 12.5%; animation-delay: 0.8s; border-color: rgba(10,159,216,0.5); }
+  .ring:nth-child(3) { width: 50%; height: 50%; top: 25%; left: 25%; animation-delay: 1.6s; border-color: rgba(10,159,216,0.7); }
+  .ring-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 100px; height: 100px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,159,216,0.6), rgba(10,159,216,0.1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.8rem;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.03); }
+  }
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 2.5rem;
+  }
+  .stat { }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem; font-weight: 900; color: var(--sky);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--gray); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sky); margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-label::before { content: ''; width: 24px; height: 2px; background: var(--sky); display: block; }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--mist); font-size: 1rem; line-height: 1.7; max-width: 600px; }
+
+  /* ABOUT */
+  #about { background: #091e2c; }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start; margin-top: 3rem;
+  }
+  .about-card {
+    background: rgba(10,159,216,0.06);
+    border: 1px solid rgba(10,159,216,0.15);
+    border-radius: 12px; padding: 2rem;
+  }
+  .about-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--sky);
+  }
+  .about-card p { color: var(--mist); font-size: 0.95rem; line-height: 1.7; }
+  .values-list { list-style: none; margin-top: 1rem; }
+  .values-list li {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    color: var(--mist); font-size: 0.9rem; padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(10,159,216,0.1);
+  }
+  .values-list li:last-child { border-bottom: none; }
+  .values-list li::before { content: '✦'; color: var(--sky); font-size: 0.7rem; margin-top: 0.2rem; flex-shrink: 0; }
+
+  /* PRODUCTS */
+  #products { background: var(--night); }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .product-card {
+    background: #0b2234;
+    border: 1px solid rgba(10,159,216,0.15);
+    border-radius: 10px; padding: 1.8rem 1.5rem;
+    transition: border-color 0.25s, transform 0.25s;
+    cursor: default;
+  }
+  .product-card:hover {
+    border-color: rgba(10,159,216,0.6);
+    transform: translateY(-4px);
+  }
+  .product-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .product-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem;
+  }
+  .product-name-ms { font-size: 0.78rem; color: var(--sky); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+  .product-desc { font-size: 0.85rem; color: var(--mist); line-height: 1.6; }
+
+  /* CONTACT */
+  #contact { background: #091e2c; }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; margin-top: 3rem;
+  }
+  .contact-info h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;
+  }
+  .contact-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .contact-icon {
+    width: 42px; height: 42px; border-radius: 8px;
+    background: rgba(10,159,216,0.12); border: 1px solid rgba(10,159,216,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-detail { }
+  .contact-detail strong { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--sky); margin-bottom: 0.3rem; }
+  .contact-detail span { font-size: 0.9rem; color: var(--mist); line-height: 1.5; }
+  .contact-detail a { color: var(--mist); text-decoration: none; }
+  .contact-detail a:hover { color: var(--sky); }
+
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: #25D366; color: white;
+    padding: 0.8rem 1.8rem; border-radius: 6px;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    margin-top: 0.5rem;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .wa-btn:hover { background: #1ebe5c; transform: translateY(-2px); }
+
+  .map-placeholder {
+    background: rgba(10,159,216,0.05);
+    border: 1px solid rgba(10,159,216,0.15);
+    border-radius: 12px; padding: 2rem;
+    height: 100%; min-height: 260px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 1rem; color: var(--mist);
+  }
+  .map-placeholder .map-icon { font-size: 2.5rem; }
+  .map-placeholder p { font-size: 0.9rem; line-height: 1.6; }
+  .map-placeholder a {
+    display: inline-block; margin-top: 0.5rem;
+    color: var(--sky); font-size: 0.85rem;
+    text-decoration: underline;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #040e14;
+    border-top: 1px solid rgba(10,159,216,0.15);
+    padding: 2rem;
+    text-align: center; color: var(--gray); font-size: 0.82rem;
+  }
+  footer strong { color: var(--mist); }
+
+  /* DIVIDER */
+  .divider {
+    width: 48px; height: 3px; background: var(--sky);
+    border-radius: 2px; margin: 1.5rem 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-visual { display: none; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 1.5rem; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
+  }
+
+  /* LANG content switching */
+  [data-lang] { display: none; }
+  .lang-zh [data-lang="zh"] { display: block; }
+  .lang-en [data-lang="en"] { display: block; }
+  .lang-ms [data-lang="ms"] { display: block; }
+  /* inline spans */
+  span[data-lang] { display: none; }
+  .lang-zh span[data-lang="zh"],
+  .lang-en span[data-lang="en"],
+  .lang-ms span[data-lang="ms"] { display: inline; }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">NS <span>COOL</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">
+      <span data-lang="zh">关于我们</span>
+      <span data-lang="en">About</span>
+      <span data-lang="ms">Tentang Kami</span>
+    </a></li>
+    <li><a href="#products">
+      <span data-lang="zh">产品目录</span>
+      <span data-lang="en">Products</span>
+      <span data-lang="ms">Produk</span>
+    </a></li>
+    <li><a href="#contact">
+      <span data-lang="zh">联系我们</span>
+      <span data-lang="en">Contact</span>
+      <span data-lang="ms">Hubungi</span>
+    </a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ms')">BM</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="hero-eyebrow">NS Cool Trading Sdn Bhd</div>
+
+      <h1 class="hero-title">
+        <div data-lang="zh">汽车冷气<br><span class="accent">零件专家</span></div>
+        <div data-lang="en">Car Aircond<br><span class="accent">Parts Expert</span></div>
+        <div data-lang="ms">Pakar Alat<br><span class="accent">Ganti Aircond</span></div>
+      </h1>
+
+      <p class="hero-tagline">
+        <span data-lang="zh">YOUR PARTS, WE CARE — 新山值得信赖的汽车冷气零件供应商，为您提供高品质零件与专业服务。</span>
+        <span data-lang="en">YOUR PARTS, WE CARE — Johor Bahru's trusted supplier for quality car air-conditioning parts and professional service.</span>
+        <span data-lang="ms">YOUR PARTS, WE CARE — Pembekal alat ganti aircond kereta yang dipercayai di Johor Bahru, berkualiti tinggi dan servis profesional.</span>
+      </p>
+
+      <a href="#contact" class="hero-cta">
+        <span data-lang="zh">立即联系我们 →</span>
+        <span data-lang="en">Contact Us Now →</span>
+        <span data-lang="ms">Hubungi Kami →</span>
+      </a>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">
+            <span data-lang="zh">产品种类</span>
+            <span data-lang="en">Part Types</span>
+            <span data-lang="ms">Jenis Produk</span>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">JB</div>
+          <div class="stat-label">
+            <span data-lang="zh">柔佛新山</span>
+            <span data-lang="en">Johor Bahru</span>
+            <span data-lang="ms">Johor Bahru</span>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">✓</div>
+          <div class="stat-label">
+            <span data-lang="zh">原厂品质</span>
+            <span data-lang="en">OEM Quality</span>
+            <span data-lang="ms">Kualiti OEM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="frost-ring">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring-center">❄️</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">
+      <span data-lang="zh">关于我们</span>
+      <span data-lang="en">About Us</span>
+      <span data-lang="ms">Tentang Kami</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="zh">专注冷气零件，用心服务每一位客户</span>
+      <span data-lang="en">Dedicated to Aircond Parts, Caring for Every Customer</span>
+      <span data-lang="ms">Fokus Alat Ganti Aircond, Melayan Setiap Pelanggan</span>
+    </h2>
+    <div class="divider"></div>
+
+    <div class="about-grid">
+      <div>
+        <div class="about-card">
+          <h3>
+            <span data-lang="zh">🏢 公司简介</span>
+            <span data-lang="en">🏢 Company Profile</span>
+            <span data-lang="ms">🏢 Profil Syarikat</span>
+          </h3>
+          <div data-lang="zh">
+            <p>NS Cool Trading Sdn Bhd 位于新山 Taman Johor Jaya，是一家专业销售汽车冷气（冷却系统）零件的公司。我们提供各类品牌及车型的冷气系统零件，从压缩机、蒸发器到冷凝器，一应俱全。</p>
+          </div>
+          <div data-lang="en">
+            <p>NS Cool Trading Sdn Bhd, based in Taman Johor Jaya, Johor Bahru, specialises in retail sales of car air-conditioning parts. We stock a wide range of components for all major brands and vehicle models — from compressors and evaporators to condensers and more.</p>
+          </div>
+          <div data-lang="ms">
+            <p>NS Cool Trading Sdn Bhd terletak di Taman Johor Jaya, Johor Bahru. Kami pakar dalam jualan runcit alat ganti sistem penghawa dingin kereta untuk pelbagai jenama dan model kenderaan — daripada compressor, evaporator hingga condenser dan lain-lain.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="about-card">
+          <h3>
+            <span data-lang="zh">⭐ 我们的承诺</span>
+            <span data-lang="en">⭐ Our Commitment</span>
+            <span data-lang="ms">⭐ Komitmen Kami</span>
+          </h3>
+          <ul class="values-list">
+            <li>
+              <span data-lang="zh">提供原厂及本地牌子的冷气零件，满足不同需求与预算</span>
+              <span data-lang="en">Original and local-brand aircond parts to suit different needs and budgets</span>
+              <span data-lang="ms">Alat ganti aircond jenama original dan tempatan untuk pelbagai keperluan dan bajet</span>
+            </li>
+            <li>
+              <span data-lang="zh">专业建议，帮助您选择最适合的零件</span>
+              <span data-lang="en">Expert advice to help you choose the right part</span>
+              <span data-lang="ms">Nasihat pakar untuk membantu anda memilih alat ganti yang tepat</span>
+            </li>
+            <li>
+              <span data-lang="zh">竞争合理的价格，物超所值</span>
+              <span data-lang="en">Competitive pricing, great value</span>
+              <span data-lang="ms">Harga berdaya saing, nilai terbaik</span>
+            </li>
+            <li>
+              <span data-lang="zh">快速配货，减少您的等待时间</span>
+              <span data-lang="en">Fast sourcing to minimise your waiting time</span>
+              <span data-lang="ms">Pembekalan cepat untuk mengurangkan masa menunggu anda</span>
+            </li>
+            <li>
+              <span data-lang="zh">多语言服务：中文、英文、马来文</span>
+              <span data-lang="en">Multilingual service: Chinese, English, Malay</span>
+              <span data-lang="ms">Perkhidmatan pelbagai bahasa: Cina, Inggeris, Melayu</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-inner">
+    <div class="section-label">
+      <span data-lang="zh">产品目录</span>
+      <span data-lang="en">Product Catalogue</span>
+      <span data-lang="ms">Katalog Produk</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="zh">我们销售的冷气零件</span>
+      <span data-lang="en">Aircond Parts We Supply</span>
+      <span data-lang="ms">Alat Ganti Aircond Yang Kami Jual</span>
+    </h2>
+    <p class="section-sub">
+      <span data-lang="zh">覆盖国产车与进口车，多品牌零件，欢迎询价。</span>
+      <span data-lang="en">Covering national and imported vehicles. Multiple brands available — enquire for pricing.</span>
+      <span data-lang="ms">Merangkumi kenderaan nasional dan import. Pelbagai jenama tersedia — hubungi kami untuk harga.</span>
+    </p>
+    <div class="divider"></div>
+
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-icon">🔧</div>
+        <div class="product-name">
+          <span data-lang="zh">压缩机</span>
+          <span data-lang="en">Compressor</span>
+          <span data-lang="ms">Compressor</span>
+        </div>
+        <div class="product-name-ms">Compressor / 压缩机</div>
+        <p class="product-desc">
+          <span data-lang="zh">冷气系统核心零件，适配多款国产及进口车型。</span>
+          <span data-lang="en">Core component of the AC system, compatible with most local and imported vehicles.</span>
+          <span data-lang="ms">Komponen utama sistem aircond, sesuai untuk pelbagai model kereta.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">❄️</div>
+        <div class="product-name">
+          <span data-lang="zh">冷却盘管</span>
+          <span data-lang="en">Cooling Coil</span>
+          <span data-lang="ms">Cooling Coil</span>
+        </div>
+        <div class="product-name-ms">Cooling Coil / 冷却盘管</div>
+        <p class="product-desc">
+          <span data-lang="zh">负责车内制冷，确保冷气效果最佳。</span>
+          <span data-lang="en">Responsible for cabin cooling — ensures peak AC performance.</span>
+          <span data-lang="ms">Bertanggungjawab menyejukkan kabin kenderaan anda.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🌬️</div>
+        <div class="product-name">
+          <span data-lang="zh">冷凝器</span>
+          <span data-lang="en">Condenser</span>
+          <span data-lang="ms">Condenser</span>
+        </div>
+        <div class="product-name-ms">Condenser / 冷凝器</div>
+        <p class="product-desc">
+          <span data-lang="zh">散热关键零件，维持整个系统稳定运作。</span>
+          <span data-lang="en">Key heat-dissipation part, keeps the entire AC system stable.</span>
+          <span data-lang="ms">Komponen penyejukan haba penting untuk kestabilan sistem.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">💨</div>
+        <div class="product-name">
+          <span data-lang="zh">风机马达</span>
+          <span data-lang="en">Blower Motor</span>
+          <span data-lang="ms">Blower Motor</span>
+        </div>
+        <div class="product-name-ms">Blower Motor / 风机马达</div>
+        <p class="product-desc">
+          <span data-lang="zh">控制冷气风量，确保车内空气循环顺畅。</span>
+          <span data-lang="en">Controls airflow and ensures smooth air circulation inside the cabin.</span>
+          <span data-lang="ms">Mengawal aliran udara dan memastikan pengedaran udara yang lancar.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🔩</div>
+        <div class="product-name">
+          <span data-lang="zh">干燥罐</span>
+          <span data-lang="en">Receiver Drier</span>
+          <span data-lang="ms">Receiver Drier</span>
+        </div>
+        <div class="product-name-ms">Receiver Drier / 干燥罐</div>
+        <p class="product-desc">
+          <span data-lang="zh">过滤冷媒中的水分与杂质，保护系统零件。</span>
+          <span data-lang="en">Filters moisture and impurities from refrigerant to protect the system.</span>
+          <span data-lang="ms">Menapis kelembapan dan kekotoran daripada refrigeran.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🌡️</div>
+        <div class="product-name">
+          <span data-lang="zh">膨胀阀</span>
+          <span data-lang="en">Expansion Valve</span>
+          <span data-lang="ms">Expansion Valve</span>
+        </div>
+        <div class="product-name-ms">Expansion Valve / 膨胀阀</div>
+        <p class="product-desc">
+          <span data-lang="zh">调节冷媒流量，提升冷气系统运作效率。</span>
+          <span data-lang="en">Regulates refrigerant flow for optimal system efficiency.</span>
+          <span data-lang="ms">Mengawal aliran refrigeran untuk kecekapan sistem yang optimum.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🛢️</div>
+        <div class="product-name">
+          <span data-lang="zh">冷媒软管</span>
+          <span data-lang="en">AC Hose / Pipe</span>
+          <span data-lang="ms">Hos / Paip AC</span>
+        </div>
+        <div class="product-name-ms">AC Hose / 冷媒软管</div>
+        <p class="product-desc">
+          <span data-lang="zh">冷媒输送管道，防漏耐压，多种规格齐全。</span>
+          <span data-lang="en">Refrigerant delivery hoses — leak-resistant, pressure-rated, various sizes.</span>
+          <span data-lang="ms">Hos penghantaran refrigeran — tahan bocor, pelbagai saiz tersedia.</span>
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">⚡</div>
+        <div class="product-name">
+          <span data-lang="zh">电子配件</span>
+          <span data-lang="en">Electronic Parts</span>
+          <span data-lang="ms">Bahagian Elektronik</span>
+        </div>
+        <div class="product-name-ms">Electronic Parts / 电子配件</div>
+        <p class="product-desc">
+          <span data-lang="zh">包括压力开关、温控器、继电器等电子零件。</span>
+          <span data-lang="en">Includes pressure switches, thermostats, relays and more.</span>
+          <span data-lang="ms">Termasuk suis tekanan, termostat, relay dan lain-lain.</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">
+      <span data-lang="zh">联系我们</span>
+      <span data-lang="en">Contact Us</span>
+      <span data-lang="ms">Hubungi Kami</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="zh">随时为您服务</span>
+      <span data-lang="en">Here When You Need Us</span>
+      <span data-lang="ms">Sedia Membantu Anda</span>
+    </h2>
+    <div class="divider"></div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>NS Cool Trading Sdn Bhd</h3>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail">
+            <strong>
+              <span data-lang="zh">地址</span>
+              <span data-lang="en">Address</span>
+              <span data-lang="ms">Alamat</span>
+            </strong>
+            <span>152 Jalan Bakawali 52,<br>Taman Johor Jaya,<br>81100 Johor Bahru, Johor</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-detail">
+            <strong>
+              <span data-lang="zh">电话 / WhatsApp</span>
+              <span data-lang="en">Phone / WhatsApp</span>
+              <span data-lang="ms">Telefon / WhatsApp</span>
+            </strong>
+            <span>
+              <a href="tel:+6073559689">07-3559689</a> /
+              <a href="tel:+6073550689">0689</a> /
+              <a href="tel:+6073551689">1689</a><br>
+              <span style="font-size:0.82rem;color:#6B7C88;">WhatsApp:</span>
+              <a href="https://wa.me/60167156850" target="_blank">016-7156850</a> /
+              <a href="https://wa.me/601155506689" target="_blank">011-55506689</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-detail">
+            <strong>
+              <span data-lang="zh">营业时间</span>
+              <span data-lang="en">Business Hours</span>
+              <span data-lang="ms">Waktu Operasi</span>
+            </strong>
+            <span>
+              <span data-lang="zh">周一至周六：9:30am – 6:30pm<br>周日／公共假期：10:30am – 4:30pm</span>
+              <span data-lang="en">Mon – Sat: 9:30am – 6:30pm<br>Sun / Public Holidays: 10:30am – 4:30pm</span>
+              <span data-lang="ms">Isnin – Sabtu: 9:30pg – 6:30ptg<br>Ahad / Cuti Umum: 10:30pg – 4:30ptg</span>
+            </span>
+          </div>
+        </div>
+
+        <a href="https://wa.me/60167156850" class="wa-btn" target="_blank">
+          💬 <span data-lang="zh">WhatsApp 询价</span>
+          <span data-lang="en">WhatsApp Enquiry</span>
+          <span data-lang="ms">Pertanyaan WhatsApp</span>
+        </a>
+      </div>
+
+      <div class="map-placeholder">
+        <div class="map-icon">🗺️</div>
+        <p>
+          <strong>152 Jalan Bakawali 52</strong><br>
+          Taman Johor Jaya<br>
+          81100 Johor Bahru, Johor
+        </p>
+        <a href="https://maps.google.com/?q=152+Jalan+Bakawali+52+Taman+Johor+Jaya+Johor+Bahru" target="_blank">
+          <span data-lang="zh">在 Google Maps 中查看 →</span>
+          <span data-lang="en">View on Google Maps →</span>
+          <span data-lang="ms">Lihat di Google Maps →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>NS Cool Trading Sdn Bhd</strong> &nbsp;|&nbsp; YOUR PARTS, WE CARE</p>
+  <p style="margin-top:0.4rem;">152 Jalan Bakawali 52, Taman Johor Jaya, 81100 Johor Bahru, Johor</p>
+  <p style="margin-top:0.4rem; font-size:0.75rem;">© 2026 NS Cool Trading Sdn Bhd. All rights reserved.</p>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
